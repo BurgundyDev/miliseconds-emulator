@@ -26,7 +26,9 @@ FetchContent_MakeAvailable(fmt)
 find_package(Threads REQUIRED)
 
 target_sources(${PROJECT_NAME} PRIVATE
-    "src/main.cpp"
+        "src/main.cpp"
+        "src/MemTracker.cpp"
+        "src/EngineObject.cpp"
     )
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
