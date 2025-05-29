@@ -31,7 +31,7 @@ target_sources(${PROJECT_NAME} PRIVATE
         "src/main.cpp"
         "src/MemTracker.cpp"
         "src/EngineObject.cpp"
-    )
+     "include/Mesh.h" "include/Text.h")
 
 target_include_directories(${PROJECT_NAME} PUBLIC include "fmt-src/")
 

@@ -4,11 +4,12 @@
 #include "EngineObject.h"
 
 #include "MemTracker.h"
+#include <fmt/printf.h>
 
 EngineObject::EngineObject() {
-    TRACK_CONSTRUCTION(PoolName, sizeof(*this));
+
 }
 
 EngineObject::~EngineObject() {
-    TRACK_DESTRUCTION(PoolName, sizeof(*this));
+
 }

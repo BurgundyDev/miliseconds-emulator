@@ -29,6 +29,28 @@ public:
     static std::map<std::string, uint64_t>& GetAllocationsMap() { return Get()->AllocationMap; }
 };
 
-#define TRACK_CONSTRUCTION(Pool, Size) MemTracker::Get()->AddAllocation(Pool, Size)
+#define TRACK_POOL(Pool) \
+    void* operator new(size_t size) \
+    { \
+        MemTracker::Get()->AddAllocation(#Pool, uint64_t(size)); \
+        return ::operator new(size); \
+    }; \
+    void* operator new[](size_t size) \
+    { \
+        MemTracker::Get()->AddAllocation(#Pool, uint64_t(size)); \
+        return ::operator new[](size); \
+    }; \
+    void operator delete(void* ptr, size_t size) \
+    { \
+        MemTracker::Get()->RemoveAllocation(#Pool, uint64_t(size)); \
+        ::operator delete(ptr); \
+    }; \
+    void operator delete[](void* ptr, size_t size) \
+    { \
+        MemTracker::Get()->RemoveAllocation(#Pool, uint64_t(size)); \
+        ::operator delete[](ptr); \
+    };
 
-#define TRACK_DESTRUCTION(Pool, Size) MemTracker::Get()->RemoveAllocation(Pool, Size)
+#define TRACK_ALLOCATION(Pool, Size) MemTracker::Get()->AddAllocation(Pool, Size);
+
+#define TRACK_DEALLOCATION(Pool, Size) MemTracker::Get()->RemoveAllocation(Pool, Size);
